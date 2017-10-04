@@ -1,13 +1,4 @@
-/* From Unit 7:
- var cardOne = "queen";
-var cardTwo = "queen";
-var cardThree = "king";
-var cardFour = "king";
-
-console.log("User flipped " + cardOne);
-console.log("User flipped " + cardThree);
-*/
-
+//setting up the data for the cards
 var cards = [
 	{
 		rank: "queen",
@@ -31,6 +22,7 @@ var cards = [
 	}
 ];
 
+//defining when a match is made
 var cardsInPlay = [];
 
 var checkForMatch = function() {
@@ -39,24 +31,44 @@ var checkForMatch = function() {
 	} else {
 		alert("Sorry, try again.");
 	}
-}
+};
 
-var flipCard = function(cardId) {
+//outlining what will show up when cards flip
+var flipCard = function() {
+	var cardId = this.getAttribute('data-id');
 	console.log("User flipped " + cards[cardId].rank + ".");
 	console.log(cards[cardId].cardImage);
 	console.log(cards[cardId].suit);
+	
 	cardsInPlay.push(cards[cardId].rank);
-	checkForMatch();
+	this.setAttribute('src', cards[cardId].cardImage);
+	if (cardsInPlay[0] === cardsInPlay[1]) {
+		checkForMatch();
+	}
 };
 
-flipCard(0);
-flipCard(2);
+//creating a board and event listener
+var createBoard = function() {
+	for (var i = 0; i < cards.length; i++) {
+	var cardElement = document.createElement('img');
+	cardElement.setAttribute('src', 'images/back.png');
+	cardElement.setAttribute('data-id', i);
 
-/*if (cardsInPlay.length === 2) {
-	if (cardsInPlay[0] === cardsInPlay[1]) {
-		alert("You found a match!");
-	} else {
-		alert("Sorry, try again.");
+	cardElement.addEventListener('click', flipCard);
+	document.getElementById('game-board').appendChild(cardElement);
 	}
-}
+};
+
+createBoard();
+
+
+/*creating a refresh button
+var refresh = function {
+	location.reload();
+};
+var button = document.querySelector('button');
+button.addEventListener('click', refresh());
 */
+
+
+
